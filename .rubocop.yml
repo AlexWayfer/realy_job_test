@@ -2,8 +2,17 @@ require:
   - rubocop-rails
   - rubocop-rspec
 
+inherit_mode:
+  merge:
+    - Include
+    - Exclude
+
 AllCops:
   NewCops: enable
 
 Layout/LineLength:
   Max: 100
+
+Style/Documentation:
+  Exclude:
+    - db/migrate/*.rb
