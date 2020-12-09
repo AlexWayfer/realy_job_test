@@ -63,4 +63,21 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  ## https://github.com/thoughtbot/factory_bot/blob/9e58a34/GETTING_STARTED.md#rspec
+  config.include FactoryBot::Syntax::Methods
+
+  ## https://github.com/toptal/chewy/blob/f11a51a/README.md#rails-application-strategies-integration
+  config.before(:suite) do
+    Chewy.strategy(:bypass)
+  end
 end
+
+## https://github.com/rgeo/activerecord-postgis-adapter#configuring-activerecord
+# RGeo::ActiveRecord::SpatialFactoryStore.instance.tap do |config|
+#   ## By default, use the GEOS implementation for spatial columns.
+#   config.default = RGeo::Geos.factory_generator
+#
+#   ## But use a geographic implementation for point columns.
+#   config.register(RGeo::Geographic.spherical_factory(srid: 4326), geo_type: 'point')
+# end

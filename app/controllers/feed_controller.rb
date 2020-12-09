@@ -3,6 +3,6 @@
 ## Controller for a feed of users
 class FeedController < ApplicationController
   def index
-    render json: { response: 'Hello!' }
+    render json: UsersIndex.query
   end
 end
