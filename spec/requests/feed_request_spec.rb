@@ -6,7 +6,9 @@ RSpec.describe 'Feeds', type: :request do
   let(:initial_number_of_users) { 3 }
 
   before do
-    create_list(:user, initial_number_of_users)
+    Chewy.strategy(:atomic) do
+      create_list(:user, initial_number_of_users)
+    end
   end
 
   describe 'GET /' do

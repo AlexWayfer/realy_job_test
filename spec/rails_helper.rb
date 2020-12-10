@@ -68,8 +68,13 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   ## https://github.com/toptal/chewy/blob/f11a51a/README.md#rails-application-strategies-integration
-  config.before(:suite) do
-    Chewy.strategy(:bypass)
+  ## But I think I need to test Elasticsearch hooks, so I've disabled it
+  # config.before(:suite) do
+  #   Chewy.strategy(:bypass)
+  # end
+
+  config.after do
+    Chewy.massacre
   end
 end
 

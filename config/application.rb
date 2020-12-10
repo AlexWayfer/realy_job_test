@@ -36,5 +36,11 @@ module UsersFeed
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    ## https://stackoverflow.com/a/63731918/2630849
+    ## It doesn't work somewhy
+    ## UPD: Oh, I found `config.eager_load = false` in `test` environment
+    # config.eager_load_paths << Rails.root.join('lib')
+    require_relative '../lib/chewy_es7_monkey_patch'
   end
 end
