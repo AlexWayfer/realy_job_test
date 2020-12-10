@@ -32,6 +32,12 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # Use requested Elasticsearch
 gem 'chewy', '~> 5.1'
 
+# Helpers for search
+gem 'active_data', '~> 1.1'
+
+# Helper for pagination
+gem 'will_paginate', '~> 3.1.0'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'factory_bot_rails'
