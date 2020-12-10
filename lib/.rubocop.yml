@@ -1,0 +1,20 @@
+AllCops:
+  NewCops: enable
+
+Layout/LineLength:
+  Max: 100
+
+Metrics/AbcSize:
+  Exclude:
+    - chewy_es7_monkey_patch.rb
+Metrics/MethodLength:
+  Exclude:
+    - chewy_es7_monkey_patch.rb
+
+Style/Documentation:
+  Exclude:
+    - chewy_es7_monkey_patch.rb
+
+## There can be unrelated to Rails things, but I don't know how to disable `rubocop-rails`
+Rails/Delegate:
+  Enabled: false

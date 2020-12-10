@@ -18,11 +18,3 @@ Layout/ArgumentAlignment:
 Style/Documentation:
   Exclude:
     - db/migrate/*.rb
-    - lib/chewy_es7_monkey_patch.rb
-
-Metrics/AbcSize:
-  Exclude:
-    - lib/chewy_es7_monkey_patch.rb
-Metrics/MethodLength:
-  Exclude:
-    - lib/chewy_es7_monkey_patch.rb
