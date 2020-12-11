@@ -3,7 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Feeds', type: :request do
-  let(:initial_number_of_users) { 3 }
+  ## Should not be greater than default `per_page`
+  let(:initial_number_of_users) { 10 }
 
   before do
     Chewy.strategy(:atomic) do
@@ -16,7 +17,16 @@ RSpec.describe 'Feeds', type: :request do
   end
 
   shared_context 'with JSON body' do
-    subject(:body) { JSON.parse(response.body) }
+    subject(:body) do
+      result = JSON.parse(response.body)
+
+      return result unless result.is_a?(Array)
+
+      result.map! do |element|
+        element['last_visit'] &&= DateTime.parse(element['last_visit'])
+        element
+      end
+    end
   end
 
   describe 'GET /' do
@@ -34,13 +44,15 @@ RSpec.describe 'Feeds', type: :request do
 
     let(:uri) { build_uri }
 
+    let(:expected_user_last_visit) { an_instance_of(DateTime) }
+
     let(:expected_user) do
       include(
         'name' => a_string_matching(/^([\w.']+ ?)+$/),
         'age' => be_between(18, 100),
         'phone_number' => a_string_matching(/^\+\d+$/),
         'location' => a_string_matching(/^POINT \(-?\d+\.\d+ -?\d+\.\d+\)$/),
-        'last_visit' => a_string_matching(/^20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/),
+        'last_visit' => expected_user_last_visit,
         'settings' => include(
           ## Custom serializer can help to parse this as `Range`
           'age_preference' => a_string_matching(/^\d{2,3}\.\.\.\d{2,3}$/),
@@ -49,13 +61,45 @@ RSpec.describe 'Feeds', type: :request do
       )
     end
 
-    include_examples 'it has successful HTTP status'
+    shared_examples 'all data in correct format' do
+      include_examples 'it has successful HTTP status'
 
-    describe 'body' do
-      include_context 'with JSON body'
+      describe 'body' do
+        include_context 'with JSON body'
 
-      it 'returns all data in correct format' do
-        expect(body).to match Array.new(initial_number_of_users, expected_user)
+        it 'returns all data in correct format' do
+          expect(body).to match Array.new(initial_number_of_users, expected_user)
+        end
+      end
+    end
+
+    include_examples 'all data in correct format'
+
+    describe '`visit_recently` filter' do
+      def build_uri
+        "#{super()}?visit_recently=#{visit_recently}"
+      end
+
+      context 'with `false` value' do
+        let(:visit_recently) { false }
+
+        include_examples 'all data in correct format'
+      end
+
+      context 'with `true` value' do
+        let(:visit_recently) { true }
+
+        let(:expected_user_last_visit) { be >= 1.week.ago }
+
+        include_examples 'it has successful HTTP status'
+
+        describe 'body' do
+          include_context 'with JSON body'
+
+          it 'returns all data in correct format' do
+            expect(body).to all match expected_user
+          end
+        end
       end
     end
 

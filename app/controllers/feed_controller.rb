@@ -17,6 +17,6 @@ class FeedController < ApplicationController
   private
 
   def search_params
-    params.permit(:search, :page, :per_page)
+    params.permit(:search, :visit_recently, :page, :per_page)
   end
 end
