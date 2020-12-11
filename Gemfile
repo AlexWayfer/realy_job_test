@@ -36,7 +36,7 @@ gem 'chewy', '~> 5.1'
 gem 'active_data', '~> 1.1'
 
 # Helper for pagination
-gem 'will_paginate', '~> 3.1.0'
+gem 'kaminari', '~> 1.2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

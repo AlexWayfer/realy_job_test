@@ -15,7 +15,18 @@ Layout/LineLength:
   Max: 100
 Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
 
 Style/Documentation:
   Exclude:
     - db/migrate/*.rb
+
+RSpec/NestedGroups:
+  Enabled: false
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false

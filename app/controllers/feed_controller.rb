@@ -6,7 +6,7 @@ class FeedController < ApplicationController
     search = UsersSearch.new(search_params)
 
     # result = search.search.source(:id).objects
-    result = search.search.source(:id).paginate(page: params[:page]).load(
+    result = search.search.source(:id).load(
       user: { scope: User.includes(:settings) }
     ).objects
 
@@ -17,7 +17,6 @@ class FeedController < ApplicationController
   private
 
   def search_params
-    result = params[:search]
-    result.is_a?(Hash) ? result : {}
+    params.permit(:search, :page, :per_page)
   end
 end
