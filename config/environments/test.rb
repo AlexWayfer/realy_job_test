@@ -48,4 +48,7 @@ Rails.application.configure do
 
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
+
+  ## https://stackoverflow.com/a/5514324/2630849
+  # ActiveRecord::Base.logger = Logger.new($stdout)
 end
